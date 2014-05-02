@@ -31,7 +31,7 @@ subprojects { Project subproject ->
 	}
 
 	subproject.dependencies {
-		compile 'com.google.inject:guice:[4.0,)'
+		compile 'com.google.inject:guice:[4,)'
 		testCompile 'org.codehaus.groovy:groovy-all:[2,3)'
 		testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 	}
