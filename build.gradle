@@ -1,5 +1,3 @@
-apply plugin:'java'
-
 buildscript {
 		repositories {
 			maven { url 'http://jcenter.bintray.com' }
