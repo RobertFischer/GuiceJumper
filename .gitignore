@@ -1,4 +1,4 @@
-*.class
+*.classA
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -27,5 +27,6 @@ bin
 *.ipr
 *.iws
 
-# Ignore the bintray API key file
+# Ignore API key files
 bintray-api.key
+aws.key
