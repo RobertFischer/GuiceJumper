@@ -1,0 +1,95 @@
+apply plugin:'java'
+
+buildscript {
+		repositories {
+			maven { url 'http://jcenter.bintray.com' }
+		}
+		dependencies {
+				classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+		}
+}
+
+def binTrayKeyFile = new File("~", "bintray-api.key")
+
+subprojects { Project subproject ->
+	subproject.apply plugin:'groovy'
+	subproject.apply plugin:'eclipse'
+	subproject.apply plugin:'idea'
+	subproject.apply plugin:'project-report'
+	subproject.apply plugin:'osgi'
+	subproject.apply plugin:'maven-publish'
+	subproject.apply plugin:'bintray'
+	subproject.apply plugin:'jacoco'
+
+	// Need to localize this for bintray closure
+	subproject.group = "com.smokejumperit.guice"
+
+	subproject.repositories {
+		mavenCentral()
+		jcenter()
+		mavenLocal()
+	}
+
+	subproject.dependencies {
+		compile 'com.google.inject:guice:[3.0,)'
+		testCompile 'org.codehaus.groovy:groovy-all:[2,3)'
+		testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+	}
+
+	if(binTrayKeyFile.file) {
+		subprojects.bintray {
+			user = "smokejumperit"
+			key = binTrayKeyFile.text.trim()
+			publications = ['mavenJava'] // see publications closure
+			pkg {
+				repo = "maven"
+				name = project.group
+				desc = "A simpler, standalone drop-in replacement for Spring's JdbcTemplate"
+				licenses = ["Apache v2"]
+				labels = ["Spring", "Java", "JDBC"]
+			}
+		}
+	}
+
+	subproject.sourceCompatibility = 1.8
+	subproject.targetCompatibility = 1.8
+
+	subproject.task('sourcesJar', type: Jar, dependsOn: subproject.classes) {
+			classifier = 'sources'
+			subproject.sourceSets.each { SourceSet ss ->
+				from ss.allSource
+			}
+	}
+
+	subproject.task('javadocJar', type: Jar, dependsOn: javadoc) {
+			classifier = 'javadoc'
+			from javadoc.destinationDir
+	}
+
+	subproject.artifacts {
+			archives subproject.sourcesJar, subproject.javadocJar
+	}
+
+	subproject.publishing {
+			publications {
+					mavenJava(MavenPublication) {
+							if (plugins.hasPlugin('war')) {
+									from components.web
+							} else {
+									from components.java
+							}
+
+							artifact sourcesJar {
+									classifier "sources"
+							}
+
+							artifact javadocJar {
+									classifier "javadoc"
+							}
+					}
+			}
+	}
+
+
+	subproject.tasks.bintrayUpload.dependsOn subproject.tasks.jar, subproject.tasks.sourcesJar, subproject.tasks.javadocJar
+}
