@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.ExecutorService;
 
+import com.google.inject.BindingAnnotation;
+
 /**
  * Denotes that a {@link ExecutorService} will be used for write operations. Write operations are
  * high priority since they consume work, and we use a small initial pool of threads with a small
@@ -12,6 +14,7 @@ import java.util.concurrent.ExecutorService;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@BindingAnnotation
 public @interface Write {
 
 }

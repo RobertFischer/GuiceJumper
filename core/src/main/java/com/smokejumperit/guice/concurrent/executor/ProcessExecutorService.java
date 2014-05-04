@@ -1,14 +1,17 @@
 package com.smokejumperit.guice.concurrent.executor;
 
+import static com.smokejumperit.guice.concurrent.executor.ExecutorModule.NUM_PROCESSORS;
+
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.google.inject.Inject;
-import com.smokejumperit.guice.concurrent.threadFactory.HighPriority;
+import com.google.inject.Singleton;
+import com.smokejumperit.guice.concurrent.threadFactory.MediumPriority;
 
 /**
  * An {@link ExecutorService} which is used for processing operations. Processing operations are
@@ -19,15 +22,28 @@ import com.smokejumperit.guice.concurrent.threadFactory.HighPriority;
  * 
  * @author Robert Fischer
  */
+@Singleton
 public class ProcessExecutorService extends ThreadPoolExecutor implements ExecutorService {
 
-	private static final int PROCESSOR_COUNT = Math
-			.max(1, Runtime.getRuntime().availableProcessors());
+	private static volatile int NEW_INSTANCE_SIZE = NUM_PROCESSORS * 1024;
+
+	public static int getNewInstanceSize() {
+		return NEW_INSTANCE_SIZE;
+	}
+
+	public static void setNewInstanceSize(int newInstanceSize) {
+		if (newInstanceSize <= 0) {
+			throw new IllegalArgumentException("Size of new instances must be at least 1, but was "
+					+ newInstanceSize);
+		}
+		NEW_INSTANCE_SIZE = newInstanceSize;
+	}
 
 	@Inject
-	public ProcessExecutorService(@Process ThreadFactory threadFactory,
+	public ProcessExecutorService(@MediumPriority ThreadFactory threadFactory,
 			RejectedExecutionHandler rejectHandler) {
-		super(PROCESSOR_COUNT, PROCESSOR_COUNT * 2, 1L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(Integer.MAX_VALUE), threadFactory, 
+		super(NUM_PROCESSORS, NUM_PROCESSORS * 2, 1L, TimeUnit.SECONDS,
+				new ArrayBlockingQueue<Runnable>(NEW_INSTANCE_SIZE), threadFactory, rejectHandler);
 	}
 
 }
