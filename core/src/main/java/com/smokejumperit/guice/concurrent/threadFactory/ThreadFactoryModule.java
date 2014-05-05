@@ -15,27 +15,20 @@ public class ThreadFactoryModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		doBinding("low priority", getLowPriorityThreadFactory(), LowPriority.class,
-				LowPriorityThreadFactory.class, LowPriorityThreadFactory.INSTANCE);
-		doBinding("medium priority", getMediumPriorityThreadFactory(), MediumPriority.class,
-				MediumPriorityThreadFactory.class, MediumPriorityThreadFactory.INSTANCE);
-		doBinding("high priority", getHighPriorityThreadFactory(), HighPriority.class,
-				HighPriorityThreadFactory.class, HighPriorityThreadFactory.INSTANCE);
+		doBinding("low priority", getLowPriorityThreadFactory(), LowPriority.class);
+		doBinding("medium priority", getMediumPriorityThreadFactory(), MediumPriority.class);
+		doBinding("high priority", getHighPriorityThreadFactory(), HighPriority.class);
 
-		Key<? extends ThreadFactory> defaultThreadFactoryKey = getDefaultThreadFactoryKey();
+		Key<? extends ThreadFactory> defaultThreadFactoryKey = getDefaultThreadFactory();
 		Objects.requireNonNull(defaultThreadFactoryKey, "default thread factory key");
 		bind(ThreadFactory.class).to(defaultThreadFactoryKey);
 	}
 
-	private <V extends ThreadFactory> void doBinding(String humanReadableType, ThreadFactory factory,
-			Class<? extends Annotation> annotation, Class<V> type, V defaultOfType) {
-		Objects.requireNonNull(factory, humanReadableType + " thread factory");
+	private void doBinding(String humanReadableType, Key<? extends ThreadFactory> factoryKey,
+			Class<? extends Annotation> annotation) {
+		Objects.requireNonNull(factoryKey, "key for " + humanReadableType + " thread factory");
 		Objects.requireNonNull(annotation, "annotation for " + humanReadableType + " thread factory");
-		Objects.requireNonNull(type, "type for " + humanReadableType + " thread factory");
-		Objects.requireNonNull(defaultOfType, "default for " + type);
-		bind(Key.get(ThreadFactory.class, annotation)).toInstance(factory);
-		bind(type).toInstance(
-				type.isAssignableFrom(factory.getClass()) ? type.cast(factory) : defaultOfType);
+		bind(Key.get(ThreadFactory.class, annotation)).to(factoryKey);
 	}
 
 	/**
@@ -44,8 +37,8 @@ public class ThreadFactoryModule extends AbstractModule {
 	 * instance of {@link LowPriorityThreadFactory}, it is also bound to the
 	 * {@link LowPriorityThreadFactory} class itself.
 	 */
-	protected ThreadFactory getLowPriorityThreadFactory() {
-		return LowPriorityThreadFactory.INSTANCE;
+	protected Key<? extends ThreadFactory> getLowPriorityThreadFactory() {
+		return Key.get(LowPriorityThreadFactory.class);
 	}
 
 	/**
@@ -54,8 +47,8 @@ public class ThreadFactoryModule extends AbstractModule {
 	 * instance of {@link MediumPriorityThreadFactory}, it is also bound to the
 	 * {@link MediumPriorityThreadFactory} class itself.
 	 */
-	protected ThreadFactory getMediumPriorityThreadFactory() {
-		return MediumPriorityThreadFactory.INSTANCE;
+	protected Key<? extends ThreadFactory> getMediumPriorityThreadFactory() {
+		return Key.get(MediumPriorityThreadFactory.class);
 	}
 
 	/**
@@ -64,15 +57,15 @@ public class ThreadFactoryModule extends AbstractModule {
 	 * instance of {@link HighPriorityThreadFactory}, it is also bound to the
 	 * {@link HighPriorityThreadFactory} class itself.
 	 */
-	protected ThreadFactory getHighPriorityThreadFactory() {
-		return HighPriorityThreadFactory.INSTANCE;
+	protected Key<? extends ThreadFactory> getHighPriorityThreadFactory() {
+		return Key.get(HighPriorityThreadFactory.class);
 	}
 
 	/**
 	 * Provides the key to use to look up the default implementation for {@link ThreadFactory}
 	 * instances. By default, this {@code @MediumPriority ThreadFactory}.
 	 */
-	protected Key<? extends ThreadFactory> getDefaultThreadFactoryKey() {
+	protected Key<? extends ThreadFactory> getDefaultThreadFactory() {
 		return Key.get(ThreadFactory.class, MediumPriority.class);
 	}
 

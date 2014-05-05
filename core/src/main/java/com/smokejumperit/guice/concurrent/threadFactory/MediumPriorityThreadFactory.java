@@ -1,11 +1,12 @@
 package com.smokejumperit.guice.concurrent.threadFactory;
 
+import com.google.inject.Singleton;
+
 /**
  * Thread factory that always generates threads with priority {@link ThreadPriority#MEDIUM}.
  */
+@Singleton
 public class MediumPriorityThreadFactory extends PriorizitedThreadFactory {
-
-	public static final MediumPriorityThreadFactory INSTANCE = new MediumPriorityThreadFactory();
 
 	@Override
 	public ThreadPriority getPriority(Runnable r) {
