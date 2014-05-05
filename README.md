@@ -18,10 +18,8 @@ In particular, it currently provides the following modules:
 for specifying the priority of the injected `ThreadFactory`.
 * *ExecutorModule* -- Presuming that the `ThreadFactoryModule` (or equivalent) is loaded, this provides implementations for `Executor`, `ExecutorService`, `ThreadPoolExecutor`, and `ScheduledExecutorService`. It also provides the `@Background`, `@Process`, `@Read`, and `@Write` annotations for acquiring a specially-tuned version of an executor for background processing, CPU-bound processing, reading I/O actions, and writing I/O actions.
 * *ConcurrentModule* -- Convenience module for loading `ThreadFactoryModule` and `ExecutorModule`.
-
-It will eventually provide the following:
-
-* *PropertiesModule* -- Makes system and environment variables available via `@Named` parameters, including providing the variables as the appropriate native types (including `BigDecimal` and `BigInteger`).
+* *PropertiesModule* -- Makes system properties, environment variables, and configuration-time String values available via `@Named` parameters, including providing automatic conversion of these values to native types (including `int`, `double`, `BigDecimal`, `BigInteger`, `Charset`, `File`, and more).
+* *CoreModule* -- Convenience module providing both `PropertiesModule` and `ConcurrentModule`.
 
 
 Subproject: AWS
