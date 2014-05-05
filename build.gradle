@@ -17,7 +17,7 @@ subprojects { Project subproject ->
 	subproject.apply plugin:'osgi'
 	subproject.apply plugin:'maven-publish'
 	subproject.apply plugin:'bintray'
-	subproject.apply plugin:'jacoco'
+	//subproject.apply plugin:'jacoco'
 
 	// Need to localize this for bintray closure
 	subproject.group = "com.smokejumperit.guice"
