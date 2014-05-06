@@ -6,13 +6,14 @@ import java.util.Properties;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 /**
  * This module makes system and environment variables available using the {@link Named} annotation
  * on any primitive type, or close relatives. For example: <br>
- *
+ * 
  * <pre>
  *   @Inject @Named("user.home") String userHome // Using raw variable
  *   @Inject @Named("system.user.home") String userHome // Using alias for system variables
@@ -61,7 +62,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and no overrides.
-	 *
+	 * 
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 */
@@ -71,7 +72,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and overrides.
-	 *
+	 * 
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 * @param overrides
@@ -84,7 +85,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the defaults set.
-	 *
+	 * 
 	 * @param newDefaults
 	 *          The defaults to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -96,7 +97,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the defaults set.
-	 *
+	 * 
 	 * @param key
 	 *          The key of the default pair to add; may not be {@code null}.
 	 * @param value
@@ -112,7 +113,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the overrides set.
-	 *
+	 * 
 	 * @param newOverrides
 	 *          The overrides to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -124,7 +125,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the overrides set.
-	 *
+	 * 
 	 * @param key
 	 *          The key of the override pair to add; may not be {@code null}.
 	 * @param value
@@ -140,6 +141,63 @@ public class PropertiesModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		final Properties toLoad = constructProperties();
+		Objects.requireNonNull(toLoad, "properties to load");
+
+		// Bind the string values
+		bindStrings(toLoad);
+
+		// Register all the fancypants conversions
+		for (final String key : toLoad.stringPropertyNames()) {
+			final String value = toLoad.getProperty(key);
+			PropertyConversionProvider<?>[] providers = generateProviders(key, value);
+			for (PropertyConversionProvider<?> provider : providers) {
+				Class<?> clazz = provider.valueClass();
+				Named name = Names.named(key);
+				Key guiceKey = Key.get(clazz, name);
+				bind(guiceKey).toProvider(provider);
+			}
+		}
+	}
+
+	/**
+	 * Generates the non-{@link String} {@link Provider} instances to map.
+	 * 
+	 * @param key
+	 *          The key that will be mapped.
+	 * @param value
+	 *          The string value that will be mapped.
+	 * @return An array of the properties.
+	 */
+	protected PropertyConversionProvider<?>[] generateProviders(String key, String value) {
+		return new PropertyConversionProvider[] {
+				new PropertyToChar(key, value),
+				new PropertyToInt(key, value),
+				new PropertyToShort(key, value),
+				new PropertyToLong(key, value),
+				new PropertyToByte(key, value),
+				new PropertyToCharset(key, value),
+				new PropertyToFile(key, value),
+				new PropertyToFloat(key, value),
+				new PropertyToDouble(key, value),
+				new PropertyToBigDecimal(key, value),
+				new PropertyToBigInteger(key, value)
+		};
+	}
+
+	/**
+	 * Binds the properties to strings.
+	 */
+	protected void bindStrings(Properties toLoad) {
+		Names.bindProperties(this.binder(), toLoad);
+	}
+
+	/**
+	 * Generates the properties to load, including applying defaults and overrides.
+	 * 
+	 * @return The properties to load.
+	 */
+	protected Properties constructProperties() {
 		// Construct an entry for properties to load
 		final Properties toLoad = new Properties();
 		toLoad.putAll(defaults);
@@ -152,32 +210,7 @@ public class PropertiesModule extends AbstractModule {
 		toLoad.putAll(System.getenv());
 		toLoad.putAll(System.getProperties());
 		toLoad.putAll(overrides);
-
-		// Bind the string values
-		Names.bindProperties(this.binder(), toLoad);
-
-		// Register all the fancypants conversions
-		for (final String key : toLoad.stringPropertyNames()) {
-			final String value = toLoad.getProperty(key);
-			PropertyConversionProvider<?>[] providers = new PropertyConversionProvider[] {
-					new PropertyToChar(key, value),
-					new PropertyToInt(key, value),
-					new PropertyToShort(key, value),
-					new PropertyToLong(key, value),
-					new PropertyToByte(key, value),
-					new PropertyToCharset(key, value),
-					new PropertyToFile(key, value),
-					new PropertyToFloat(key, value),
-					new PropertyToDouble(key, value),
-					new PropertyToBigDecimal(key, value),
-					new PropertyToBigInteger(key, value)
-			};
-			for (PropertyConversionProvider<?> provider : providers) {
-				Class clazz = provider.valueClass();
-				Named name = Names.named(key);
-				Key guiceKey = Key.get(clazz, name);
-				bind(guiceKey).toProvider(provider);
-			}
-		}
+		return toLoad;
 	}
+
 }
