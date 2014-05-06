@@ -26,7 +26,7 @@ for specifying the priority of the injected `ThreadFactory`.
 Subproject: AWS
 -----------------
 This is a standard wiring for AWS. It takes an `AWSCredentials` instance (or an `AWSCredentialsProvider`).
-Based on that information, it will wire up all the `Amazon\*Client` instances so that
+Based on that information, it will wire up all the `Amazon*Client` instances so that
 you can simply `@Inject` them. It is responsible for knowing which ones are thread-safe and which aren't. Its configuration is broken down
 into overridable `protected` methods that mirror the AWS Java SDK package structure.
 
