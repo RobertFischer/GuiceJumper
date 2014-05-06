@@ -12,7 +12,7 @@ import com.google.inject.name.Names;
 /**
  * This module makes system and environment variables available using the {@link Named} annotation
  * on any primitive type, or close relatives. For example: <br>
- * 
+ *
  * <pre>
  *   @Inject @Named("user.home") String userHome // Using raw variable
  *   @Inject @Named("system.user.home") String userHome // Using alias for system variables
@@ -61,7 +61,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and no overrides.
-	 * 
+	 *
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 */
@@ -71,7 +71,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and overrides.
-	 * 
+	 *
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 * @param overrides
@@ -84,7 +84,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the defaults set.
-	 * 
+	 *
 	 * @param newDefaults
 	 *          The defaults to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -96,7 +96,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the defaults set.
-	 * 
+	 *
 	 * @param key
 	 *          The key of the default pair to add; may not be {@code null}.
 	 * @param value
@@ -112,7 +112,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the overrides set.
-	 * 
+	 *
 	 * @param newOverrides
 	 *          The overrides to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -124,7 +124,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the overrides set.
-	 * 
+	 *
 	 * @param key
 	 *          The key of the override pair to add; may not be {@code null}.
 	 * @param value
@@ -173,7 +173,11 @@ public class PropertiesModule extends AbstractModule {
 					new PropertyToBigInteger(key, value)
 			};
 			for (PropertyConversionProvider<?> provider : providers) {
-				bind((Key) Key.get(provider.valueClass(), Names.named(key))).toProvider(provider);
+				Class clazz = provider.valueClass();
+				Named name = Names.named(key);
+				System.err.println("Binding " + clazz + " to " + name);
+				Key guiceKey = Key.get(clazz, name);
+				bind(guiceKey).toProvider(provider);
 			}
 		}
 	}
