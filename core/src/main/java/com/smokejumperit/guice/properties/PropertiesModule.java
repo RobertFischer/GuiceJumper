@@ -175,7 +175,6 @@ public class PropertiesModule extends AbstractModule {
 			for (PropertyConversionProvider<?> provider : providers) {
 				Class clazz = provider.valueClass();
 				Named name = Names.named(key);
-				System.err.println("Binding " + clazz + " to " + name);
 				Key guiceKey = Key.get(clazz, name);
 				bind(guiceKey).toProvider(provider);
 			}
