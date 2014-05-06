@@ -1,54 +1,31 @@
 package com.smokejumperit.guice.concurrent;
 
-import java.util.Arrays;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
+import com.smokejumperit.guice.InstallingModule;
 import com.smokejumperit.guice.concurrent.executor.ExecutorModule;
 import com.smokejumperit.guice.concurrent.threadFactory.ThreadFactoryModule;
 
 /**
- * Installs the modules used for concurrency. The modules that are returned are the ones provided by
- * the {@code getXxxModule} methods.
+ * Installs the modules used for concurrency.
  */
-public class ConcurrentModule extends AbstractModule {
+public class ConcurrentModule extends InstallingModule {
 
 	/**
-	 * Installs the modules to use. By default, this is the non-null elements of {@link #getModules()}
+	 * Installs a default implementation of the modules.
 	 */
-	@Override
-	protected void configure() {
-		Iterable<Module> modules = getModules();
-		if (modules != null) {
-			for (Module module : modules) {
-				if (module != null)
-					this.install(module);
-			}
-		}
+	public ConcurrentModule() {
+		this(new ThreadFactoryModule(), new ExecutorModule());
 	}
 
 	/**
-	 * Provides the modules to use. By default, this is the return values for the
-	 * {@code getXxxModule()} defined on {@code ConcurrentModule}, any of which may be {@code null}.
+	 * Installs the given modules.
+	 * 
+	 * @param threadFactoryModule
+	 *          The {@link ThreadFactoryModule} to install; may be {@code null} to not install the
+	 *          module.
+	 * @param executorModule
+	 *          The {@link ExecutorModule} to install; may be {@code null} to install the module.
 	 */
-	protected Iterable<Module> getModules() {
-		return Arrays.asList(getExecutorModule(), getThreadFactoryModule());
+	public ConcurrentModule(ThreadFactoryModule threadFactoryModule, ExecutorModule executorModule) {
+		super(threadFactoryModule, executorModule);
 	}
-
-	/**
-	 * Provides the {@link ExecutorModule} (or replacement) to use: return {@code null} to signify
-	 * that no module should be used.
-	 */
-	protected Module getExecutorModule() {
-		return new ExecutorModule();
-	}
-
-	/**
-	 * Provides the {@link ThreadFactoryModule} (or replacement) to use: return {@code null} to
-	 * signify that no module should be used.
-	 */
-	protected Module getThreadFactoryModule() {
-		return new ThreadFactoryModule();
-	}
-
 }

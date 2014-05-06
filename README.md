@@ -14,6 +14,7 @@ These are utility classes and useful modules which do not depend on anything mor
 
 In particular, it currently provides the following modules:
 
+* *InstallingModule* -- A module which simply installs other modules.
 * *ThreadFactoryModule* -- Provides a default `ThreadFactory`, along with the `@LowPriority`, `@MediumPriority`, and `@HighPriority` annotations 
 for specifying the priority of the injected `ThreadFactory`.
 * *ExecutorModule* -- Presuming that the `ThreadFactoryModule` (or equivalent) is loaded, this provides implementations for `Executor`, `ExecutorService`, `ThreadPoolExecutor`, and `ScheduledExecutorService`. It also provides the `@Background`, `@Process`, `@Read`, and `@Write` annotations for acquiring a specially-tuned version of an executor for background processing, CPU-bound processing, reading I/O actions, and writing I/O actions.
