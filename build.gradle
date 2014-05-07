@@ -7,7 +7,7 @@ buildscript {
 		}
 }
 
-def binTrayKeyFile = new File("~", "bintray-api.key")
+def binTrayKeyFile = new File(System.properties["user.home"], "bintray-api.key")
 
 subprojects { Project subproject ->
 	subproject.apply plugin:'groovy'
@@ -35,18 +35,24 @@ subprojects { Project subproject ->
 	}
 
 	if(binTrayKeyFile.file) {
-		subprojects.bintray {
+		logger.info("Found Bintray key at: $binTrayKeyFile")
+		subproject.bintray {
 			user = "smokejumperit"
 			key = binTrayKeyFile.text.trim()
 			publications = ['mavenJava'] // see publications closure
 			pkg {
 				repo = "maven"
-				name = project.group
-				desc = "A simpler, standalone drop-in replacement for Spring's JdbcTemplate"
-				licenses = ["Apache v2"]
-				labels = ["Spring", "Java", "JDBC"]
+				name = subproject.group
+				desc = "Useful standard modules for Guice"
+				licenses = ["Unlicense"]
+				labels = [
+					"Guice", "Java", "concurrency", "ExecutorService", "Executor", "ThreadFactory",
+					"Properties", "environment variables", "system properties"
+				]
 			}
 		}
+	} else {
+		logger.info("Could NOT find Bintray key at: $binTrayKeyFile -- skipping Bintray upload configuration")
 	}
 
 	subproject.sourceCompatibility = 1.8
