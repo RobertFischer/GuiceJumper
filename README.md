@@ -12,6 +12,9 @@ Subproject: Core
 ------------------
 These are utility classes and useful modules which do not depend on anything more than the most recent version of Guice and its dependencies.
 
+The module is available at the [JCenter](https://bintray.com/bintray/jcenter) Maven Repository, which is located at 
+[http://jcenter.bintray.com/](http://jcenter.bintray.com/). The Maven coordinates for this module are: `com.smokejumperit.guice:core:$VERSION`.
+
 In particular, it currently provides the following modules:
 
 * *InstallingModule* -- A module which simply installs other modules.
@@ -25,8 +28,14 @@ for specifying the priority of the injected `ThreadFactory`.
 
 Subproject: AWS
 -----------------
-This is a standard wiring for AWS. It takes an `AWSCredentials` instance (or an `AWSCredentialsProvider`).
-Based on that information, it will wire up all the `Amazon*Client` instances so that
-you can simply `@Inject` them. It is responsible for knowing which ones are thread-safe and which aren't. Its configuration is broken down
-into overridable `protected` methods that mirror the AWS Java SDK package structure.
+_*THE IMPLEMENTATION FOR THIS MODULE IS NOT YET RELEASED*_
 
+This will be a standard wiring module for AWS. It will take an `AWSCredentials` instance (or an `AWSCredentialsProvider`).
+Based on that information, it will wire up all the `Amazon*Client` instances so that
+you can simply `@Inject` them. It will be responsible for knowing which ones are thread-safe and which aren't. Its configuration broken down
+into overridable modules that will mirror the AWS Java SDK package structure.
+
+License
+--------
+
+Released under [the Unlicense](http://unlicense.org/). See `LICENSE` for more information.
