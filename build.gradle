@@ -96,4 +96,12 @@ subprojects { Project subproject ->
 
 
 	subproject.tasks.bintrayUpload.dependsOn subproject.tasks.jar, subproject.tasks.sourcesJar, subproject.tasks.javadocJar
+
+	subproject.tasks.javadoc {
+		options.links(
+			"http://docs.oracle.com/javase/8/docs/api/",
+			"https://google-guice.googlecode.com/git/javadoc/"
+		)
+		options.linkSource true
+	}
 }
