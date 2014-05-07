@@ -33,9 +33,11 @@ public class ThreadFactoryModule extends AbstractModule {
 
 	/**
 	 * Provides the thread factory to use for {@link LowPriority}-annotated {@link ThreadFactory}
-	 * instances. By default, this is {@link LowPriorityThreadFactory#INSTANCE}. If you return an
+	 * instances. By default, this is {@link LowPriorityThreadFactory}. If you return an
 	 * instance of {@link LowPriorityThreadFactory}, it is also bound to the
 	 * {@link LowPriorityThreadFactory} class itself.
+	 *
+	 * @return The key to use to look up the thread factory; never {@code null}.
 	 */
 	protected Key<? extends ThreadFactory> getLowPriorityThreadFactory() {
 		return Key.get(LowPriorityThreadFactory.class);
@@ -43,9 +45,11 @@ public class ThreadFactoryModule extends AbstractModule {
 
 	/**
 	 * Provides the thread factory to use for {@link MediumPriority}-annotated {@link ThreadFactory}
-	 * instances. By default, this is {@link MediumPriorityThreadFactory#INSTANCE}. If you return an
+	 * instances. By default, this is {@link MediumPriorityThreadFactory}. If you return an
 	 * instance of {@link MediumPriorityThreadFactory}, it is also bound to the
 	 * {@link MediumPriorityThreadFactory} class itself.
+	 *
+	 * @return The key to use to look up the thread factory; never {@code null}.
 	 */
 	protected Key<? extends ThreadFactory> getMediumPriorityThreadFactory() {
 		return Key.get(MediumPriorityThreadFactory.class);
@@ -53,9 +57,11 @@ public class ThreadFactoryModule extends AbstractModule {
 
 	/**
 	 * Provides the thread factory to use for {@link HighPriority}-annotated {@link ThreadFactory}
-	 * instances. By default, this is {@link HighPriorityThreadFactory#INSTANCE}. If you return an
+	 * instances. By default, this is {@link HighPriorityThreadFactory}. If you return an
 	 * instance of {@link HighPriorityThreadFactory}, it is also bound to the
 	 * {@link HighPriorityThreadFactory} class itself.
+	 *
+	 * @return The key to use to look up the thread factory; never {@code null}.
 	 */
 	protected Key<? extends ThreadFactory> getHighPriorityThreadFactory() {
 		return Key.get(HighPriorityThreadFactory.class);
@@ -64,6 +70,8 @@ public class ThreadFactoryModule extends AbstractModule {
 	/**
 	 * Provides the key to use to look up the default implementation for {@link ThreadFactory}
 	 * instances. By default, this {@code @MediumPriority ThreadFactory}.
+	 *
+	 * @return The key to use to look up the thread factory; never {@code null}.
 	 */
 	protected Key<? extends ThreadFactory> getDefaultThreadFactory() {
 		return Key.get(ThreadFactory.class, MediumPriority.class);

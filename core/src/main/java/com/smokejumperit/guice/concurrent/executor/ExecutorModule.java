@@ -63,6 +63,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provide the {@link RejectedExecutionHandler} that classes should use. By default, this is
 	 * {@link ThreadPoolExecutor.CallerRunsPolicy}.
+	 *
+	 * @return The key referring to the handler to use; never {@code null}
 	 */
 	protected Key<? extends RejectedExecutionHandler> getRejectedExecutionHandler() {
 		return Key.get(ThreadPoolExecutor.CallerRunsPolicy.class);
@@ -71,6 +73,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provides the instance to use for bare {@link ThreadPoolExecutor} instances. By default, this is
 	 * an instance of {@link WriteExecutorService}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ThreadPoolExecutor> getThreadPoolExecutor() {
 		return Key.get(WriteExecutorService.class);
@@ -83,6 +87,8 @@ public class ExecutorModule extends AbstractModule {
 	 * {@link BackgroundExecutorService}, that type is also bound to the
 	 * {@link BackgroundExecutorService} class itself. If you return a key with a type that implements
 	 * {@link ThreadPoolExecutor}, it is also bound to {@code @Background ThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ExecutorService> getBackgroundExecutorService() {
 		return Key.get(BackgroundExecutorService.class);
@@ -95,6 +101,8 @@ public class ExecutorModule extends AbstractModule {
 	 * {@link ReadExecutorService}, that type is also bound to the {@link ReadExecutorService} class
 	 * itself. If you return a key with a type that implements {@link ThreadPoolExecutor}, it is also
 	 * bound to {@code @Read ThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ExecutorService> getReadExecutorService() {
 		return Key.get(ReadExecutorService.class);
@@ -107,6 +115,8 @@ public class ExecutorModule extends AbstractModule {
 	 * {@link WriteExecutorService}, that type is also bound to the {@link WriteExecutorService} class
 	 * itself. If you return a key with a type that implements {@link ThreadPoolExecutor}, it is also
 	 * bound to {@code @Write ThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ExecutorService> getWriteExecutorService() {
 		return Key.get(WriteExecutorService.class);
@@ -119,6 +129,8 @@ public class ExecutorModule extends AbstractModule {
 	 * {@link ProcessExecutorService}, that type is also bound to the {@link ProcessExecutorService}
 	 * class itself. If you return a key with a type that implements {@link ThreadPoolExecutor}, it is
 	 * also bound to {@code @Process ThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ExecutorService> getProcessExecutorService() {
 		return Key.get(ProcessExecutorService.class);
@@ -127,6 +139,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provide the key to the default implementation of the {@link Executor} interface. By default,
 	 * this is {@code ExecutorService}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends Executor> getDefaultExecutor() {
 		return Key.get(ExecutorService.class);
@@ -135,6 +149,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provide the key to the default implementation of the {@link ExecutorService} interface. By
 	 * default, this is {@code @Process ExecutorService}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ExecutorService> getDefaultExecutorService() {
 		return Key.get(ExecutorService.class, Process.class);
@@ -143,6 +159,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provide the key to the default implementation of the {@link ScheduledExecutorService}
 	 * interface. By default, this is {@code ScheduledThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ScheduledExecutorService> getDefaultScheduledExecutorService() {
 		return Key.get(ScheduledThreadPoolExecutor.class);
@@ -151,6 +169,8 @@ public class ExecutorModule extends AbstractModule {
 	/**
 	 * Provides the key to generate {@link ScheduledThreadPoolExecutor} instances. By default, this is
 	 * {@link ProcessLimitedScheduledThreadPoolExecutor}.
+	 *
+	 * @return The key referring to the executor to use; never {@code null}
 	 */
 	protected Key<? extends ScheduledThreadPoolExecutor> getScheduledThreadPoolExecutor() {
 		return Key.get(ProcessLimitedScheduledThreadPoolExecutor.class);

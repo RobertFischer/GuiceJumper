@@ -13,15 +13,15 @@ import com.google.inject.name.Names;
 /**
  * This module makes system and environment variables available using the {@link Named} annotation
  * on any primitive type, or close relatives. For example: <br>
- * 
+ *
  * <pre>
- *   @Inject @Named("user.home") String userHome // Using raw variable
- *   @Inject @Named("system.user.home") String userHome // Using alias for system variables
- *   @Inject @Named("env.HOME") String userHome // Using the HOME environment variable
- *   @Inject @Named("file.separator") char fileSeperator // Single-character values exposed as char
- *   @Inject @Named("env.NUMBER_OF_PROCESSORS") int processorCount // int-parseable values exposed as int
- *   @Inject @Named("user.home") File userHome // Value exposed as file
- *   @Inject @Named("file.encoding") Charset fileEncoding // If in Charset.availableCharsets(), exposed as Charset
+ *   {@literal @Inject @Named("user.home")} String userHome // Using raw variable
+ *   {@literal @Inject @Named("system.user.home")} String userHome // Using alias for system variables
+ *   {@literal @Inject @Named("env.HOME")} String userHome // Using the HOME environment variable
+ *   {@literal @Inject @Named("file.separator")} char fileSeperator // Single-character values exposed as char
+ *   {@literal @Inject @Named("env.NUMBER_OF_PROCESSORS")} int processorCount // int-parseable values exposed as int
+ *   {@literal @Inject @Named("user.home")} File userHome // Value exposed as file
+ *   {@literal @Inject @Named("file.encoding")} Charset fileEncoding // If in Charset.availableCharsets(), exposed as Charset
  * </pre>
  * <p>
  * System variables are available with the {@code system.} prefix; environment variables are
@@ -62,7 +62,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and no overrides.
-	 * 
+	 *
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 */
@@ -72,7 +72,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Constructs an instance with the given defaults and overrides.
-	 * 
+	 *
 	 * @param defaults
 	 *          The defaults to use; passing {@code null} is equivalent to passing an empty map.
 	 * @param overrides
@@ -85,7 +85,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the defaults set.
-	 * 
+	 *
 	 * @param newDefaults
 	 *          The defaults to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -97,7 +97,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the defaults set.
-	 * 
+	 *
 	 * @param key
 	 *          The key of the default pair to add; may not be {@code null}.
 	 * @param value
@@ -113,7 +113,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds multiple pairs to the overrides set.
-	 * 
+	 *
 	 * @param newOverrides
 	 *          The overrides to add; passing {@code null} is equivalent to passing an empty map.
 	 * @return {@code this} for invocation chaining.
@@ -125,7 +125,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Adds a single pair to the overrides set.
-	 * 
+	 *
 	 * @param key
 	 *          The key of the override pair to add; may not be {@code null}.
 	 * @param value
@@ -162,7 +162,7 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Generates the non-{@link String} {@link Provider} instances to map.
-	 * 
+	 *
 	 * @param key
 	 *          The key that will be mapped.
 	 * @param value
@@ -187,14 +187,17 @@ public class PropertiesModule extends AbstractModule {
 
 	/**
 	 * Binds the properties to strings.
+	 *
+	 * @param toLoad The properties to load as strings; never {@code null}.
 	 */
 	protected void bindStrings(Properties toLoad) {
+		Objects.requireNonNull(toLoad, "properties to load");
 		Names.bindProperties(this.binder(), toLoad);
 	}
 
 	/**
 	 * Generates the properties to load, including applying defaults and overrides.
-	 * 
+	 *
 	 * @return The properties to load.
 	 */
 	protected Properties constructProperties() {
