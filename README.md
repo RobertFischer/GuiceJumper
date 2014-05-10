@@ -8,6 +8,20 @@ things of Guice compared to other dependency injection frameworks.
 This project is broken into various subprojects. Each subproject provides multiple modules. All the modules are designed to be easily extensible 
 and customizable: see their API and source for more information.
 
+Summary: Gradle Usage 
+-----------------------
+
+```
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile 'com.smokejumperit.guice:core:1.1'
+}
+```
+
+
 Subproject: Core
 ------------------
 These are utility classes and useful modules which do not depend on anything more than the most recent version of Guice and its dependencies.
