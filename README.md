@@ -14,6 +14,7 @@ These are utility classes and useful modules which do not depend on anything mor
 
 The module is available at the [JCenter](https://bintray.com/bintray/jcenter) Maven Repository, which is located at 
 [http://jcenter.bintray.com/](http://jcenter.bintray.com/). The Maven coordinates for this module are: `com.smokejumperit.guice:core:$VERSION`.
+Check out the versions that are available here: [http://jcenter.bintray.com/com/smokejumperit/guice/core/](http://jcenter.bintray.com/com/smokejumperit/guice/core/).
 
 In particular, it currently provides the following modules:
 
