@@ -23,7 +23,7 @@ public class LocalizedImpl implements Localized {
 	/**
 	 * The key for localization look-ups.
 	 * 
-	 * @returns The key to use; never {@code null}.
+	 * @return The key to use; never {@code null}.
 	 */
 	@Override
 	public String value() {

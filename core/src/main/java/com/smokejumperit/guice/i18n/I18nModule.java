@@ -14,6 +14,7 @@ import com.google.inject.Key;
  * annotating it with the {@literal @Localized} annotation.
  * 
  * @see Localized
+ * @see ResourceBundle
  */
 public class I18nModule extends AbstractModule {
 
@@ -38,7 +39,7 @@ public class I18nModule extends AbstractModule {
 	 * 
 	 * @param baseName
 	 *          The base name for resources; never {@code null}.
-	 * @see ResourceBundle.getBundle(String)
+	 * @see ResourceBundle#getBundle(String)
 	 */
 	public I18nModule(String baseName) {
 		this(ResourceBundle.getBundle(baseName));
@@ -51,7 +52,7 @@ public class I18nModule extends AbstractModule {
 	 *          The base name for resources; never {@code null}.
 	 * @param locale
 	 *          The locale for resources; never {@code null}.
-	 * @see ResourceBundle.getBundle(String,Locale)
+	 * @see ResourceBundle#getBundle(String,Locale)
 	 */
 	public I18nModule(String baseName, Locale locale) {
 		this(ResourceBundle.getBundle(baseName, locale));
@@ -66,7 +67,7 @@ public class I18nModule extends AbstractModule {
 	 *          The locale for resources; never {@code null}.
 	 * @param classLoader
 	 *          The classLoader for resources; never {@code null}.
-	 * @see ResourceBundle.getBundle(String,Locale,ClassLoader)
+	 * @see ResourceBundle#getBundle(String,Locale,ClassLoader)
 	 */
 	public I18nModule(String baseName, Locale locale, ClassLoader classLoader) {
 		this(ResourceBundle.getBundle(baseName, locale, classLoader));
@@ -76,7 +77,7 @@ public class I18nModule extends AbstractModule {
 	 * Creates a purely-default configured values. The {@code baseName} used by the @{link
 	 * ResourceBundle} is "i18n".
 	 * 
-	 * @see ResourceBundle.getBundle(String)
+	 * @see ResourceBundle#getBundle(String)
 	 */
 	public I18nModule() {
 		this(ResourceBundle.getBundle("i18n"));
