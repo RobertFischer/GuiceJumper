@@ -1,6 +1,7 @@
 package com.smokejumperit.guice;
 
 import com.smokejumperit.guice.concurrent.ConcurrentModule;
+import com.smokejumperit.guice.i18n.I18nModule;
 import com.smokejumperit.guice.properties.PropertiesModule;
 
 public class CoreModule extends InstallingModule {
@@ -9,7 +10,7 @@ public class CoreModule extends InstallingModule {
 	 * Provides the default set of core modules.
 	 */
 	public CoreModule() {
-		this(new ConcurrentModule(), new PropertiesModule());
+		this(new ConcurrentModule(), new PropertiesModule(), new I18nModule());
 	}
 
 	/**
@@ -19,8 +20,10 @@ public class CoreModule extends InstallingModule {
 	 *          The {@link ConcurrentModule} to use; may be {@code null} to not install this module.
 	 * @param props
 	 *          The {@link PropertiesModule} to use; may be {@code null} to not install this module.
+	 * @param i18n
+	 *          The {@link I18nModule} to use; may be {@code null} to not install this module.
 	 */
-	public CoreModule(ConcurrentModule concurrent, PropertiesModule props) {
+	public CoreModule(ConcurrentModule concurrent, PropertiesModule props, I18nModule i18n) {
 		super(concurrent, props);
 	}
 

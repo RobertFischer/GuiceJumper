@@ -22,8 +22,9 @@ In particular, it currently provides the following modules:
 for specifying the priority of the injected `ThreadFactory`.
 * *ExecutorModule* -- Presuming that the `ThreadFactoryModule` (or equivalent) is loaded, this provides implementations for `Executor`, `ExecutorService`, `ThreadPoolExecutor`, and `ScheduledExecutorService`. It also provides the `@Background`, `@Process`, `@Read`, and `@Write` annotations for acquiring a specially-tuned version of an executor for background processing, CPU-bound processing, reading I/O actions, and writing I/O actions.
 * *ConcurrentModule* -- Convenience module for loading `ThreadFactoryModule` and `ExecutorModule`.
-* *PropertiesModule* -- Makes system properties, environment variables, and configuration-time String values available via `@Named` parameters, including providing automatic conversion of these values to native types (including `int`, `double`, `BigDecimal`, `BigInteger`, `Charset`, `File`, and more). Examples of just how easy this makes configuration values are in [the JavaDoc](http://files.enfranchisedmind.com/guicejumper-api/com/smokejumperit/guice/properties/PropertiesModule.html).  An upcoming extension to the *PropertiesModule* will provide localization support.
-* *CoreModule* -- Convenience module providing both `PropertiesModule` and `ConcurrentModule`.
+* *PropertiesModule* -- Makes system properties, environment variables, and configuration-time String values available via `@Named` parameters, including providing automatic conversion of these values to native types (including `int`, `double`, `BigDecimal`, `BigInteger`, `Charset`, `File`, and more). Examples of just how easy this makes configuration values are in [the JavaDoc](http://files.enfranchisedmind.com/guicejumper-api/com/smokejumperit/guice/properties/PropertiesModule.html).  
+* *I18nModule* -- Provides access to `ResourceBundle` based internationalization, which is also useful for externalizing your user strings. Simply annotate your string fields with `@Localized('foo')`, and it will be injected with the resource bundle message with the key `foo`. Also exposes the `ResourceBundle` and `Locale` for injection.
+* *CoreModule* -- Convenience module providing `PropertiesModule`, `ConcurrentModule`, and a default-configured `I18nModule`.
 
 
 
