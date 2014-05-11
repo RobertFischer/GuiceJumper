@@ -29,15 +29,6 @@ class I18nSpecification extends Specification {
 		VALUE == value
 	}
 
-	void "check localized annotation is equal to localizedimpl"() {
-		when:
-		def impl = new LocalizedImpl(KEY)
-		def ann = Holder.getDeclaredField("value").getAnnotation(Localized)
-
-		then:
-		impl == ann
-	}
-
 	void "check injection"() {
 		when:
 		def holder = injector.getInstance(Holder)
