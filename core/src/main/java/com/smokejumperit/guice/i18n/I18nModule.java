@@ -12,7 +12,7 @@ import com.google.inject.Key;
  * This module provides internationalization/localization support leveraging Java's
  * {@link ResourceBundle} and {@link Locale} structure. Any {@link String} can be provided by
  * annotating it with the {@literal @Localized} annotation.
- * 
+ *
  * @see Localized
  * @see ResourceBundle
  */
@@ -25,7 +25,7 @@ public class I18nModule extends AbstractModule {
 
 	/**
 	 * Constructor given a resource bundle to use.
-	 * 
+	 *
 	 * @param bundle
 	 *          The bundle to use; never {@code null}.
 	 */
@@ -36,7 +36,7 @@ public class I18nModule extends AbstractModule {
 
 	/**
 	 * Constructor that retrieves the bundle given the basename.
-	 * 
+	 *
 	 * @param baseName
 	 *          The base name for resources; never {@code null}.
 	 * @see ResourceBundle#getBundle(String)
@@ -47,7 +47,7 @@ public class I18nModule extends AbstractModule {
 
 	/**
 	 * Constructor that retrieves the bundle given the basename and locale.
-	 * 
+	 *
 	 * @param baseName
 	 *          The base name for resources; never {@code null}.
 	 * @param locale
@@ -60,7 +60,7 @@ public class I18nModule extends AbstractModule {
 
 	/**
 	 * Constructor that retrieves the bundle given the basename, locale, and classloader.
-	 * 
+	 *
 	 * @param baseName
 	 *          The base name for resources; never {@code null}.
 	 * @param locale
@@ -76,7 +76,7 @@ public class I18nModule extends AbstractModule {
 	/**
 	 * Creates a purely-default configured values. The {@code baseName} used by the @{link
 	 * ResourceBundle} is "i18n".
-	 * 
+	 *
 	 * @see ResourceBundle#getBundle(String)
 	 */
 	public I18nModule() {
@@ -92,12 +92,16 @@ public class I18nModule extends AbstractModule {
 		}
 
 		bind(ResourceBundle.class).toInstance(this.bundle);
-		bind(Locale.class).toInstance(this.bundle.getLocale());
+		if(this.bundle.getLocale() != null) {
+			bind(Locale.class).toInstance(this.bundle.getLocale());
+		} else {
+			bind(Locale.class).toInstance(Locale.getDefault());
+		}
 	}
 
 	/**
 	 * Generates an instance of the {@link Localized} annotation for the given key.
-	 * 
+	 *
 	 * @param resourceKey
 	 *          The given resource key; never {@code null}.
 	 * @return An instance of the annotation; never {@code null}.
